@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NTU PaCE × Comet — AI Camp Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:     #0A0E1F;
+    --navy-mid: #111629;
+    --navy-card:#161C35;
+    --yellow:   #FFEF20;
+    --amber:    #F6B51B;
+    --white:    #EEF0F8;
+    --muted:    #8A90B0;
+    --ntu-red:  #C0392B;
+    --radius:   10px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    background: rgba(10,14,31,0.88); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-brand { font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-brand span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--yellow); }
+  @media(max-width:600px){ nav{padding:14px 20px;} .nav-links{display:none;} }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    padding: 80px 24px 60px; overflow: hidden;
+  }
+  #cosmos { position: absolute; inset: 0; z-index: 0; }
+  .hero-inner { position: relative; z-index: 1; max-width: 800px; }
+
+  .lockup {
+    display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 44px; flex-wrap: wrap;
+  }
+  .brand-pill {
+    display: flex; align-items: center; gap: 9px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 40px; padding: 8px 18px;
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .comet-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 6px var(--amber); }
+  .ntu-dot   { width: 8px; height: 8px; border-radius: 50%; background: var(--ntu-red); }
+  .times { font-size: 1rem; color: var(--muted); }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,239,32,0.1); border: 1px solid rgba(255,239,32,0.2);
+    border-radius: 4px; padding: 4px 12px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--yellow);
+    margin-bottom: 22px;
+  }
+
+  .hero-headline {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(2.8rem, 7vw, 5.2rem); line-height: 1.0;
+    color: var(--white); margin-bottom: 24px;
+  }
+  .hero-headline em { font-style: normal; color: var(--yellow); }
+
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); max-width: 540px; margin: 0 auto 44px; line-height: 1.7;
+  }
+
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--yellow); color: var(--navy); border: none;
+    padding: 13px 28px; border-radius: 6px;
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--amber); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 13px 28px; border-radius: 6px;
+    font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .scroll-cue {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; z-index: 1;
+    animation: bob 2.5s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0)} 50%{opacity:0.8;transform:translateX(-50%) translateY(5px)} }
+
+  /* SECTIONS */
+  section { padding: 88px 24px; }
+  .container { max-width: 1040px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'Barlow', sans-serif; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber); margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.05; margin-bottom: 16px;
+  }
+  .section-body {
+    font-size: 0.95rem; color: var(--muted); max-width: 560px; line-height: 1.75; margin-bottom: 52px;
+  }
+  .hl { color: var(--yellow); }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 2px; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); overflow: hidden;
+    margin-bottom: 60px;
+  }
+  .stat-cell {
+    background: var(--navy-card); padding: 36px 28px;
+    display: flex; flex-direction: column; gap: 6px;
+    position: relative; overflow: hidden;
+  }
+  .stat-cell::after {
+    content:''; position: absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, var(--yellow), var(--amber));
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .stat-cell:hover::after { opacity: 1; }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem); line-height: 1; color: var(--yellow);
+  }
+  .stat-num sup { font-size: 0.45em; vertical-align: super; color: var(--amber); }
+  .stat-label { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+
+  /* CURRICULUM */
+  .curriculum-bg { background: var(--navy-mid); }
+
+  .curriculum-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px; margin-bottom: 52px;
+  }
+  .curriculum-card {
+    background: var(--navy-card); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius); padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .curriculum-card:hover { border-color: rgba(255,239,32,0.2); transform: translateY(-2px); }
+
+  .c-icon { font-size: 1.5rem; }
+
+  .curriculum-card h3 {
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.3;
+  }
+  .curriculum-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* CAMP CARDS */
+  .camp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 52px; }
+  @media(max-width:660px){ .camp-grid { grid-template-columns: 1fr; } }
+
+  .camp-card {
+    border-radius: var(--radius); padding: 36px 32px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .camp-card.winter {
+    background: linear-gradient(135deg, #0D1A3A 0%, #152848 100%);
+    border: 1px solid rgba(120,170,255,0.18);
+  }
+  .camp-card.summer {
+    background: linear-gradient(135deg, #1F1205 0%, #2A1908 100%);
+    border: 1px solid rgba(246,181,27,0.22);
+  }
+  .camp-season {
+    font-family: 'Barlow', sans-serif; font-weight: 800; font-size: 0.7rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .camp-card.winter .camp-season { color: #7EB8FF; }
+  .camp-card.summer .camp-season { color: var(--amber); }
+
+  .camp-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.8rem; line-height: 1.1; }
+
+  .camp-meta {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .meta-tag {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 3px 10px;
+    font-size: 0.72rem; font-weight: 600; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .camp-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .camp-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  .camp-list li::before { content: '→'; flex-shrink: 0; margin-top: 1px; }
+  .camp-card.winter li::before { color: #7EB8FF; }
+  .camp-card.summer li::before { color: var(--amber); }
+
+  /* PROOF STRIP */
+  .proof-strip {
+    background: rgba(255,239,32,0.04); border: 1px solid rgba(255,239,32,0.12);
+    border-radius: var(--radius); padding: 36px 40px;
+    display: flex; align-items: center; gap: 36px; flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+  .ps-badge {
+    background: rgba(255,239,32,0.1); border: 1px solid rgba(255,239,32,0.2);
+    border-radius: 4px; padding: 4px 12px;
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--yellow); white-space: nowrap;
+  }
+  .ps-body { flex: 1; min-width: 180px; }
+  .ps-body strong { display: block; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+  .ps-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .ps-stats { display: flex; gap: 28px; flex-shrink: 0; flex-wrap: wrap; }
+  .ps-stat { text-align: center; }
+  .ps-stat strong { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.9rem; color: var(--yellow); line-height: 1; }
+  .ps-stat span { font-size: 0.74rem; color: var(--muted); }
+
+  /* PARTNERSHIP TABLE */
+  .partner-table { width: 100%; border-collapse: collapse; margin-bottom: 52px; }
+  .partner-table th {
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    text-align: left; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .partner-table td {
+    padding: 16px 20px; font-size: 0.88rem; line-height: 1.5;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .partner-table tr:last-child td { border-bottom: none; }
+  .partner-table td:first-child { color: var(--muted); width: 28%; }
+  .partner-table td:nth-child(2) { color: var(--white); }
+  .partner-table td:nth-child(3) { color: var(--white); }
+  .col-comet { color: var(--yellow) !important; font-weight: 600; }
+  .col-ntu { color: #7EB8FF !important; font-weight: 600; }
+
+  /* MARKET BARS */
+  .market-row { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 52px; }
+  @media(max-width:700px){ .market-row { grid-template-columns: 1fr; } }
+  .market-bars { display: flex; flex-direction: column; gap: 16px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; }
+  .bar-label span:first-child { color: var(--muted); }
+  .bar-label span:last-child { color: var(--white); font-weight: 600; }
+  .bar-track { height: 7px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--yellow), var(--amber)); transform: scaleX(0); transform-origin: left; transition: transform 1.1s cubic-bezier(0.4,0,0.2,1); }
+
+  /* CTA */
+  .cta-section { background: radial-gradient(ellipse at 50% 0%, rgba(255,239,32,0.06) 0%, transparent 60%); text-align: center; padding: 110px 24px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy-mid); border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 36px 24px; text-align: center; font-size: 0.78rem; color: var(--muted);
+  }
+  .footer-lockup {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 0.88rem;
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .footer-lockup span.sep { color: rgba(255,255,255,0.2); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: rgba(255,255,255,0.05); max-width: 1040px; margin: 0 auto; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand"><span>Comet</span> × NTU PaCE</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#curriculum">Programme</a>
+    <a href="#camps">Editions</a>
+    <a href="#structure">Structure</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="cosmos"></canvas>
+  <div class="hero-inner">
+    <div class="lockup">
+      <div class="brand-pill"><span class="comet-dot"></span> Comet by Cialfo</div>
+      <span class="times">×</span>
+      <div class="brand-pill"><span class="ntu-dot"></span> NTU PaCE</div>
+    </div>
+    <div class="hero-tag">AI Camp Series — Proposal 2025/26</div>
+    <h1 class="hero-headline">AI for applications.<br><em>AI for careers.</em><br>On the NTU campus.</h1>
+    <p class="hero-sub">
+      A short-format residential camp teaching Grade 10–12 students how to use AI in their university applications and early career thinking — co-hosted with NTU PaCE, powered by Comet's student network across Asia.
+    </p>
+    <div class="btn-row">
+      <a href="#curriculum" class="btn-primary">See the Programme</a>
+      <a href="#structure" class="btn-outline">Partnership Structure</a>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <svg width="14" height="20" viewBox="0 0 14 20" fill="none"><path d="M7 0v16M1 10l6 8 6-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    scroll
+  </div>
+</section>
+
+<!-- ABOUT / REACH -->
+<section id="about">
+  <div class="container">
+    <p class="eyebrow reveal">Who We Are</p>
+    <h2 class="section-title reveal">Comet is where<br><span class="hl">Asia's applicants live.</span></h2>
+    <p class="section-body reveal">
+      Comet is Cialfo's student-facing platform. Every student on it is actively working toward an international university application. The numbers below reflect our active network — the audience we bring to any programme we run.
+    </p>
+
+    <div class="stat-grid reveal">
+      <div class="stat-cell">
+        <div class="stat-num">365K<sup>+</sup></div>
+        <div class="stat-label">Active students on the school network</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">1,800<sup>+</sup></div>
+        <div class="stat-label">Partner schools globally</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">120<sup>+</sup></div>
+        <div class="stat-label">Countries represented</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">5M<sup>+</sup></div>
+        <div class="stat-label">Applications submitted through the platform</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">500<sup>+</sup></div>
+        <div class="stat-label">Direct Apply partner universities</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">4.89<span style="font-size:0.5em; color:var(--amber);">/5</span></div>
+        <div class="stat-label">Student satisfaction rating</div>
+      </div>
+    </div>
+
+    <div class="market-row reveal">
+      <div>
+        <p class="eyebrow">Student Geography</p>
+        <h3 class="section-title" style="font-size:1.8rem; margin-bottom:12px;">Where our students are</h3>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.7;">
+          Singapore sits at the centre of our source markets. Students from India, Indonesia, and China are already considering Singapore as a study destination — a camp on the NTU campus accelerates that conversation.
+        </p>
+      </div>
+      <div class="market-bars">
+        <div>
+          <div class="bar-label"><span>India</span><span>38%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.38"></div></div>
+        </div>
+        <div>
+          <div class="bar-label"><span>Southeast Asia</span><span>29%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.29"></div></div>
+        </div>
+        <div>
+          <div class="bar-label"><span>China</span><span>18%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.18"></div></div>
+        </div>
+        <div>
+          <div class="bar-label"><span>Other markets</span><span>15%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="0.15"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof-strip reveal">
+      <div class="ps-badge">Precedent</div>
+      <div class="ps-body">
+        <strong>SMU AI & Business Bootcamp — Singapore</strong>
+        <p>7-day residential at SMU, June 2026. Comet handled all outreach and enrolment through school counsellor networks, WhatsApp, and in-app messaging.</p>
+      </div>
+      <div class="ps-stats">
+        <div class="ps-stat"><strong>21</strong><span>Students</span></div>
+        <div class="ps-stat"><strong>6</strong><span>Countries</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CURRICULUM -->
+<section id="curriculum" class="curriculum-bg">
+  <div class="container">
+    <p class="eyebrow reveal">The Programme</p>
+    <h2 class="section-title reveal">What students<br><span class="hl">actually learn.</span></h2>
+    <p class="section-body reveal">
+      The camp runs across two tracks — applications and careers — delivered over 5–7 days. NTU faculty anchor the AI literacy modules; Comet Guides run the application workshops.
+    </p>
+
+    <div class="curriculum-grid reveal">
+      <div class="curriculum-card">
+        <div class="c-icon">🤖</div>
+        <h3>AI Literacy for Students</h3>
+        <p>How large language models work, what they're good at, and where they fall short — taught by NTU faculty with hands-on sessions in NTU's labs.</p>
+      </div>
+      <div class="curriculum-card">
+        <div class="c-icon">✍️</div>
+        <h3>AI-Assisted Application Writing</h3>
+        <p>Using AI tools to brainstorm, structure, and refine personal statements and supplemental essays — with Comet Guides reviewing every draft in real time.</p>
+      </div>
+      <div class="curriculum-card">
+        <div class="c-icon">🔍</div>
+        <h3>University Research with AI</h3>
+        <p>How to use AI to map fit, compare programmes, and build a balanced school list — moving faster and with more rigour than a spreadsheet allows.</p>
+      </div>
+      <div class="curriculum-card">
+        <div class="c-icon">💼</div>
+        <h3>Career Pathways & AI</h3>
+        <p>Which careers AI is reshaping, which skills will matter, and how to frame early choices — internships, majors, extracurriculars — around what's coming.</p>
+      </div>
+      <div class="curriculum-card">
+        <div class="c-icon">🎤</div>
+        <h3>Interview Prep with AI Simulation</h3>
+        <p>Students run simulated university interviews with AI, receive structured feedback, and practise with Comet Guides — covering Oxford-style, Oxbridge, and panel formats.</p>
+      </div>
+      <div class="curriculum-card">
+        <div class="c-icon">📊</div>
+        <h3>Build Your AI Portfolio</h3>
+        <p>Every student leaves with a short AI project — a career research report, a redlined essay draft, or a mapped school list — that can go straight into their application materials.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDITIONS -->
+<section id="camps">
+  <div class="container">
+    <p class="eyebrow reveal">Camp Editions</p>
+    <h2 class="section-title reveal">Winter pilot. <span class="hl">Then scale.</span></h2>
+    <p class="section-body reveal">
+      We propose a December 2026 pilot to validate the model, followed by a summer edition in June 2027 and a recurring series thereafter.
+    </p>
+
+    <div class="camp-grid reveal">
+      <div class="camp-card winter">
+        <div class="camp-season">❄️ Winter Camp — Pilot</div>
+        <div class="camp-title">December 2026</div>
+        <div class="camp-meta">
+          <span class="meta-tag">5–7 days</span>
+          <span class="meta-tag">Grade 10–12</span>
+          <span class="meta-tag">20–30 students</span>
+        </div>
+        <ul class="camp-list">
+          <li>Full AI curriculum across 5 days</li>
+          <li>NTU faculty-led AI sessions (2–3 modules)</li>
+          <li>Comet Guide: application workshops daily</li>
+          <li>Campus accommodation + NTU lab access</li>
+          <li>NTU PaCE completion certificate</li>
+        </ul>
+      </div>
+      <div class="camp-card summer">
+        <div class="camp-season">☀️ Summer Camp — Scale</div>
+        <div class="camp-title">June / July 2027</div>
+        <div class="camp-meta">
+          <span class="meta-tag">7–10 days</span>
+          <span class="meta-tag">Grade 9–12</span>
+          <span class="meta-tag">40–60 students</span>
+        </div>
+        <ul class="camp-list">
+          <li>Expanded curriculum with elective tracks</li>
+          <li>Industry guest sessions (AI / tech sector)</li>
+          <li>Team project: AI-built research presentations</li>
+          <li>Parent information session (Day 1, virtual)</li>
+          <li>NTU PaCE completion certificate + portfolio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRUCTURE -->
+<section id="structure" style="background: var(--navy-mid);">
+  <div class="container">
+    <p class="eyebrow reveal">Partnership Structure</p>
+    <h2 class="section-title reveal">Who does what.</h2>
+    <p class="section-body reveal">
+      Simple split: NTU PaCE provides the campus and academic credibility; Comet handles student acquisition, programme logistics, and on-ground counselling.
+    </p>
+
+    <table class="partner-table reveal">
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th class="col-comet">Comet</th>
+          <th class="col-ntu">NTU PaCE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Student recruitment</td>
+          <td>End-to-end — school networks, WhatsApp, in-app, email, robocalling</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Curriculum design</td>
+          <td>Application, essay, and career modules</td>
+          <td>AI literacy and faculty-led sessions</td>
+        </tr>
+        <tr>
+          <td>On-ground delivery</td>
+          <td>Comet Guides embedded full-time</td>
+          <td>NTU faculty for academic modules</td>
+        </tr>
+        <tr>
+          <td>Venue & logistics</td>
+          <td>—</td>
+          <td>Campus, accommodation, labs, meals</td>
+        </tr>
+        <tr>
+          <td>Certification</td>
+          <td>Programme completion content</td>
+          <td>NTU PaCE branded certificate</td>
+        </tr>
+        <tr>
+          <td>Marketing & branding</td>
+          <td>Comet / Cialfo channels + co-branded assets</td>
+          <td>NTU PaCE co-branding on all materials</td>
+        </tr>
+        <tr>
+          <td>Revenue</td>
+          <td>Per-student fee collected by Comet</td>
+          <td>Hosting fee + revenue share per participant</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="proof-strip reveal" style="margin-bottom:0;">
+      <div class="ps-badge">Indicative Financials</div>
+      <div class="ps-body">
+        <strong>Pilot: 25 students · SGD 4,500–5,500 per student</strong>
+        <p>Revenue split and hosting fee to be agreed in a follow-up commercial discussion. These figures are based on the SMU bootcamp model adjusted for NTU's campus costs.</p>
+      </div>
+      <div class="ps-stats">
+        <div class="ps-stat"><strong>SGD 110–140K</strong><span>Pilot gross revenue</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="footer-lockup">
+    <span>Comet by Cialfo</span>
+    <span class="sep">×</span>
+    <span>NTU PaCE</span>
+  </div>
+  <p>Confidential — for discussion purposes only. © 2025 Cialfo Pte. Ltd.</p>
+</footer>
+
+<script>
+// COSMOS CANVAS
+(function(){
+  const canvas = document.getElementById('cosmos');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars=[], comets=[];
+
+  function resize(){ W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+
+  function mkStar(){ return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.1+0.2, a:Math.random()*0.5+0.1, da:(Math.random()-0.5)*0.003 }; }
+
+  function mkComet(){ return { x:Math.random()*W*0.6, y:Math.random()*H*0.35, len:Math.random()*100+60, speed:Math.random()*2.5+2, angle:Math.PI/6+(Math.random()-0.5)*0.15, life:200+Math.random()*100, t:0 }; }
+
+  function init(){ resize(); stars=Array.from({length:140},mkStar); comets=[]; setTimeout(()=>comets.push(mkComet()),1000); }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.da; if(s.a>0.65||s.a<0.05) s.da*=-1;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(238,240,248,${s.a})`; ctx.fill();
+    });
+    comets=comets.filter(c=>c.t<c.life);
+    comets.forEach(c=>{
+      c.t++;
+      const p=c.t/c.life;
+      const al=p<0.2?p/0.2:p>0.8?1-(p-0.8)/0.2:1;
+      const ex=c.x+Math.cos(c.angle)*c.speed*c.t;
+      const ey=c.y+Math.sin(c.angle)*c.speed*c.t;
+      const sx=ex-Math.cos(c.angle)*c.len;
+      const sy=ey-Math.sin(c.angle)*c.len;
+      const g=ctx.createLinearGradient(sx,sy,ex,ey);
+      g.addColorStop(0,`rgba(255,239,32,0)`);
+      g.addColorStop(0.7,`rgba(255,239,32,${al*0.4})`);
+      g.addColorStop(1,`rgba(255,255,255,${al})`);
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey);
+      ctx.strokeStyle=g; ctx.lineWidth=1.4; ctx.stroke();
+      ctx.beginPath(); ctx.arc(ex,ey,1.4,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${al})`; ctx.fill();
+    });
+    if(Math.random()<0.003&&comets.length<3) comets.push(mkComet());
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize',resize);
+  init(); draw();
+})();
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// BAR ANIMATION
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        b.style.transform=`scaleX(${parseFloat(b.dataset.w)})`;
+      });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.market-bars').forEach(el=>barObs.observe(el));
+</script>
+</body>
+</html>
